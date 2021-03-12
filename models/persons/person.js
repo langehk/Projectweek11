@@ -9,8 +9,8 @@ const personSchema = mongoose.Schema({
     middlename: String, 
     newsletter: Boolean,
     password: String
-})
+});
 
-const Person = mongoose.Model("Person", personSchema, 'persons');
+const Person = mongoose.model("Person", personSchema, 'persons');
 
 exports.Person = Person; 
