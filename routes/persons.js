@@ -11,8 +11,14 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Express' });
 });
 
-router.post('/login', function(req, res, next) {
-  handler.comparePassword(req, res);
+router.post('/login', async function(req, res, next) {
+  let log = await handler.comparePassword(req, res);
+  if(log){
+    res.render('books', { title: 'Express' });
+  }
+  else{
+    res.render('login', { title: 'Express' });
+  }
 });
 
 module.exports = router;
