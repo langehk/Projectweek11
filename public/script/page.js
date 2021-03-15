@@ -7,7 +7,6 @@ import {Ajax} from "./Ajax.js";
 const getBooks = function(ev) {
     let req = Object.create(Ajax);
     req.init();
-    
     req.getFile("/library/books", showBooks);
 };
 
