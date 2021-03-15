@@ -12,9 +12,9 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', async function(req, res, next) { 
-  handler.readPassword(req).
-    then(async function(hash) {
-        const loggedin = await handler.comparePassword(req.body.password, hash);
+  handler.readPerson(req).
+    then(async function(personinfo) {
+        const loggedin = await handler.comparePassword(req.body.password, personinfo, req);
         if(loggedin){
           res.redirect('../library/books'); //list of books
         }

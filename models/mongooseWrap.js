@@ -22,7 +22,6 @@ exports.retrieve = async function (Model, query) {
     } catch (err) {
         console.log(err);
     } finally {
-        console.log("Found stuff with mongoose girl");
         db.close();
         return stuff;
     }
@@ -41,7 +40,6 @@ exports.retrieveAndSort = async function (Model, sort) {
     } catch (err) {
         console.log(err);
     } finally {
-        console.log("Found stuff with mongoose girl");
         db.close();
         return stuff;
     }
