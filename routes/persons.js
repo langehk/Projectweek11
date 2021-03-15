@@ -11,14 +11,17 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Express' });
 });
 
-router.post('/login', async function(req, res, next) {
-  let log = await handler.comparePassword(req, res);
-  if(log){
-    res.render('books', { title: 'Express' });
-  }
-  else{
-    res.render('login', { title: 'Express' });
-  }
+router.post('/login', async function(req, res, next) { 
+  handler.readPassword(req).
+    then(async function(hash) {
+        const loggedin = await handler.comparePassword(req.body.password, hash);
+        if(loggedin){
+          res.redirect('../library/books'); //list of books
+        }
+        else{
+          //res.render('login', { title: 'Express' });
+        }
+    });
 });
 
 module.exports = router;
