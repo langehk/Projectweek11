@@ -4,6 +4,6 @@ const bookcopySchema = mongoose.Schema({
     bookid = Number
 })
 
-const Bookcopy = mongoose.Model("Bookcopy", bookcopySchema, 'bookcopies');
+const Bookcopy = mongoose.model("Bookcopy", bookcopySchema, 'bookcopies');
 
 exports.Bookcopy = Bookcopy; 

@@ -6,6 +6,6 @@ const reservationSchema = mongoose.Schema({
     date: String
 })
 
-const Reservation = mongoose.Model("Reservation", reservationSchema, 'reservations');
+const Reservation = mongoose.model("Reservation", reservationSchema, 'reservations');
 
 exports.Reservation = Reservation; 

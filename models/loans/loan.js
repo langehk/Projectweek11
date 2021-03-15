@@ -5,6 +5,6 @@ const loanSchema = mongoose.Schema({
     pid: Number
 })
 
-const Loan = mongoose.Model("Loan", loanSchema, 'loans');
+const Loan = mongoose.model("Loan", loanSchema, 'loans');
 
 exports.Loan = Loan; 

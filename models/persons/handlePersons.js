@@ -19,7 +19,7 @@ exports.comparePassword = async function(plain, personinfo, req){
     const loggedin = await bcrypt.compare(plain, personinfo[0].password);
     if(loggedin){
         req.session.authenticated = true;       // set session vars
-        req.session.user = personinfo[0].firstname;  
+        req.session.user = personinfo[0].email;  
     }
 
     return loggedin;
