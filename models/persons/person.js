@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const personSchema = mongoose.Schema({
-    cpr: Number,
+    cpr: {type: Number, unique: true},
     currentpenalties: Number,
-    email: String,
+    email: {type: String, unique: true},
     firstname: String, 
     lastname: String,
     middlename: String, 

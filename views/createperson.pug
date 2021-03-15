@@ -1,3 +1,19 @@
 extends layout 
 
 block content
+    form(method="post" id="createpersonForm" action="")
+        label(for="cpr") CPR-number:
+        input(type="number" name="cpr" required)
+        label(for="email") E-mail:
+        input(type="email" name="email" required)
+        label(for="firstname") Firstname: 
+        input(type="text", name="firstname" required)
+        label(for="middlename") Middlename: 
+        input(type="text", name="middlename")
+        label(for="lastname") Lastname:
+        input(type="text", name="lastname" required)
+        label(for="password") Enter password:
+        input(type="password" name="password" required)
+        label(for="newsletter") Newsletter: 
+        input(type="checkbox", name="newsletter" required)
+        input(type="submit" id="createpersonButton" value="Create user")
