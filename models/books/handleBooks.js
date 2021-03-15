@@ -11,7 +11,6 @@ exports.readBooks = async function(req, res){
         }
 
         let books = await mongooseWrap.retrieveAndSort(model.Book, SORT);
-        console.log(books);
         return books; 
     } catch (error) {
         console.log(error);

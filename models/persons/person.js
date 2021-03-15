@@ -9,7 +9,6 @@ const personSchema = mongoose.Schema({
     middlename: String, 
     newsletter: Boolean,
     password: String,
-    versionKey: false
 });
 
 const Person = mongoose.model("Person", personSchema, 'persons');
