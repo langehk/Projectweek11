@@ -8,7 +8,8 @@ const personSchema = mongoose.Schema({
     lastname: String,
     middlename: String, 
     newsletter: Boolean,
-    password: String
+    password: String,
+    versionKey: false
 });
 
 const Person = mongoose.model("Person", personSchema, 'persons');

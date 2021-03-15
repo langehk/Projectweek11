@@ -7,12 +7,12 @@ import {Ajax} from "./Ajax.js";
 const getBooks = function(ev) {
     let req = Object.create(Ajax);
     req.init();
-    console.log('getbooks');
+    
     req.getFile("/library/books", showBooks);
 };
 
 const showBooks = function(e){
-    console.log('showbooks');
+    
     let element = $("books");
     
     while (element.firstChild) {
@@ -29,7 +29,6 @@ const showBooks = function(e){
         
         //Iterate through authors 
         book.authors.forEach(function(author){
-            console.log(author);
             let authortxt = document.createTextNode(`${author.firstname} ${author.middlename} ${author.lastname}, `);
             div.appendChild(authortxt);
         })
