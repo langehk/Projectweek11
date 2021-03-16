@@ -9,7 +9,6 @@ exports.readCopies = async function(bookid){
         }
 
         let copies = await mongooseWrap.retrieve(model.Bookcopy, query);
-        console.log(copies);
         return copies; 
     } catch (error) {
         console.log(error);
