@@ -11,8 +11,9 @@ router.get('/booksview', async function(req, res, next) {
 
 router.get('/booksOLD/:booktitle', async function(req, res, next) {
   let book = await handler.readDetails(req.params.booktitle); 
+  let status = 'Loan';
   console.log(book);
-  res.render('details', { book });
+  res.render('details', { book, status });
 });
 
 
