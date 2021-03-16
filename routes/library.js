@@ -9,6 +9,13 @@ router.get('/booksview', async function(req, res, next) {
   });
 });
 
+router.get('/booksOLD/:booktitle', async function(req, res, next) {
+  console.log('Title:' + req.params.booktitle);
+  let book = await handler.readDetails(req.params.booktitle); 
+  res.render('details', { title: 'hej' });
+});
+
+
 router.get('/booksOLD', async function(req, res, next) {
   //MISSING: read books and send data with
   let books = await handler.readBooks(req, res); 

@@ -7,4 +7,5 @@ block content
                 p #{book.title}
                 each author in book.authors
                     p #{author.firstname} #{author.middlename} #{author.lastname}
-                button(class="details" onclick='editItem(' + book.title + ')') Details
+                button(class="details") Details
+                    a(href="/library/booksOLD/" + book.title) 
