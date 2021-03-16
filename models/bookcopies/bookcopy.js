@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const bookcopySchema = mongoose.Schema({
-    bookid = Number
+    bookid : Number
 })
 
 const Bookcopy = mongoose.model("Bookcopy", bookcopySchema, 'bookcopies');
