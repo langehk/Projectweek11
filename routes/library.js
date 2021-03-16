@@ -50,11 +50,16 @@ router.get('/reserve', async function(req, res, next) {
 router.get('/loansandreservations', async function(req, res, next) {
   if(req.session.authenticated){
     let query = {email: req.session.user};
-    let person = await handlerPersons.readPerson(req, res, query);
-    let loans = await handlerLoans.readPersonLoans(person[0]._id);
-    
+    let person = await handlerPersons.readPerson(req, res, query); //read user
+    let loans = await handlerLoans.readPersonLoans(person[0]._id); //read loans to that user
+    let bookcopies = await handlerBookCopies.readLentCopies(loans); //read bookcopies with same loanids
+    let books = await handlerBooks.readLentBooks(bookcopies); //read books with bookcopy ids 
+    res.render('loansandreservations', { books });  
   }
-  res.render('loansandreservations', { title: 'Din side' });
+  else{
+    res.redirect('../persons/login'); //not logged in
+  }
+    
 });
 
 module.exports = router;

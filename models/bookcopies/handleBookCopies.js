@@ -14,3 +14,23 @@ exports.readCopies = async function(bookid){
         console.log(error);
     }
 }
+
+exports.readLentCopies = async function(loans){
+    let idarray = [];
+    let bookIdarray = [];
+    //pushing our bookcopy id's into new array
+    loans.forEach(function (loan) {
+        idarray.push(loan._id);
+    });
+
+    try {
+        let query = { _id : { $in : idarray } } //query to search for loans on these bookcopies
+        let bookcopies = await mongooseWrap.retrieve(model.Bookcopy, query);
+        bookcopies.forEach(function (bookcopy) {
+            bookIdarray.push(bookcopy.bookid);
+        });
+        return bookIdarray; 
+    } catch (error) {
+        console.log(error);
+    }
+}
