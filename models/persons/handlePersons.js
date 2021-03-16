@@ -50,6 +50,5 @@ exports.postPerson = async function(req, res){
     await mongooseWrap.save(person); 
     req.session.authenticated = true;       // set session vars
     req.session.user = req.body.email;
-    res.redirect('/library/booksview');
-      
+    res.redirect('/library/booksview');     
 }

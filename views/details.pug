@@ -1,4 +1,7 @@
 extends layout
 
 block content
-    p= title
+    each val in book
+        p(class="booktitle") #{val.title}
+        each author in val.authors
+            p(class="authors") #{author.firstname} #{author.middlename} #{author.lastname}
