@@ -15,10 +15,17 @@ router.get('/books/:booktitle', async function(req, res, next) {
     console.log('Not logged in');
   } */
 
-  let bookcopies = await handlerBookCopies.readCopies(book[0]._id);
-  let loans = await handlerLoans.readLoans(bookcopies);
+  let bookcopies = await handlerBookCopies.readCopies(book[0]._id); //read copies
+  let loans = await handlerLoans.readLoans(bookcopies); //read loans
 
-  res.render('details', { book });
+  if(bookcopies.length == loans.length){ //If loans.length are the same as copies.length there's no available books
+    availability = false; 
+    console.log('Not available');
+  }
+  else{
+    availability = true; 
+  }
+  res.render('details', { book, availability });
 });
 
 //Books page
