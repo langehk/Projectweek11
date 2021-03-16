@@ -56,11 +56,11 @@ router.get('/loansandreservations', async function(req, res, next) {
     //LOANS
     let loans = await handlerLoans.readPersonLoans(person[0]._id); //read loans to that user
     let bookcopies = await handlerBookCopies.readLentCopies(loans); //read bookcopies with same loanids
-    let lentbooks = await handlerBooks.readLentBooks(bookcopies); //read books with bookcopy ids 
+    let lentbooks = await handlerBooks.readBooksInfo(bookcopies); //read books with bookcopy ids 
 
     //RESERVATIONS
     let reservations = await handlerReservations.readPersonReservations(person[0]._id);
-    let reservedbooks = await handlerBooks.readLentBooks(reservations); 
+    let reservedbooks = await handlerBooks.readBooksInfo(reservations); 
 
     res.render('loansandreservations', { lentbooks, reservedbooks });  
   }
