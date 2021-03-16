@@ -7,5 +7,5 @@ block content
                 p #{book.title}
                 each author in book.authors
                     p #{author.firstname} #{author.middlename} #{author.lastname}
-                a(href="/library/booksOLD/" + book.title)
+                a(href="/library/books/" + book.title)
                     button(class="details") Details
