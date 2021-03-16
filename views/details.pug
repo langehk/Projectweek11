@@ -6,6 +6,8 @@ block content
         each author in val.authors
             p(class="authors") #{author.firstname} #{author.middlename} #{author.lastname}
     if availability
-        button Loan
+        a(href="/library/loan")
+            button Loan
     else
-        button Reserve
+        a(href="/library/reserve")
+            button Reserve

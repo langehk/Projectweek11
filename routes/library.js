@@ -34,4 +34,16 @@ router.get('/books', async function(req, res, next) {
   res.render('books', { books });
 });
 
+
+//Loan and reserve
+router.get('/loan', async function(req, res, next) {
+  let books = await handlerBooks.readBooks(req, res); 
+  res.render('books', { books });
+});
+
+router.get('/reserve', async function(req, res, next) {
+  let books = await handlerBooks.readBooks(req, res); 
+  res.render('books', { books });
+});
+
 module.exports = router;
