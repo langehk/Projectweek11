@@ -4,6 +4,7 @@ const handlerBooks = require('../models/books/handleBooks');
 const handlerBookCopies = require('../models/bookcopies/handleBookCopies');
 const handlerLoans = require('../models/loans/handleLoans');
 const handlerPersons = require('../models/persons/handlePersons');
+const handlerReservations = require('../models/reservations/handleReservations');
 
 //Details page
 router.get('/books/:booktitle', async function(req, res, next) {
@@ -51,9 +52,15 @@ router.get('/loansandreservations', async function(req, res, next) {
   if(req.session.authenticated){
     let query = {email: req.session.user};
     let person = await handlerPersons.readPerson(req, res, query); //read user
+
+    //LOANS
     let loans = await handlerLoans.readPersonLoans(person[0]._id); //read loans to that user
     let bookcopies = await handlerBookCopies.readLentCopies(loans); //read bookcopies with same loanids
     let lentbooks = await handlerBooks.readLentBooks(bookcopies); //read books with bookcopy ids 
+
+    //RESERVATIONS
+    let reservations = await handlerReservations.readPersonReservations(person[0]._id);
+
     res.render('loansandreservations', { lentbooks });  
   }
   else{

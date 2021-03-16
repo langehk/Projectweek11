@@ -1,6 +1,7 @@
 const model = require('./loan');
 const mongooseWrap = require('../mongooseWrap');
 
+//Reading lent books with bookcopies as parameter
 exports.readLoans = async function(bookcopies){
     let idarray = [];
     //pushing our bookcopy id's into new array
@@ -17,12 +18,12 @@ exports.readLoans = async function(bookcopies){
     }
 }
 
+//Reading lent books to user
 exports.readPersonLoans = async function(pid){
 
     try {
         let query = { pid : pid };
         let loans = await mongooseWrap.retrieve(model.Loan, query);
-        console.log(loans);
         return loans; 
     } catch (error) {
         console.log(error);

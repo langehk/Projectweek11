@@ -26,12 +26,11 @@ exports.readDetails = async function(title){
     }
 }
 
+//Finding bookinfo on lent books
 exports.readLentBooks = async function(bookcopies){
     try {
         let query = { _id : { $in : bookcopies } } //query to search for loans on these bookcopies
-        console.log(bookcopies);
         let books = await mongooseWrap.retrieve(model.Book, query);
-        console.log(books);
         return books; 
     } catch (error) {
         console.log(error);
