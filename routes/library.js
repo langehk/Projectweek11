@@ -53,8 +53,8 @@ router.get('/loansandreservations', async function(req, res, next) {
     let person = await handlerPersons.readPerson(req, res, query); //read user
     let loans = await handlerLoans.readPersonLoans(person[0]._id); //read loans to that user
     let bookcopies = await handlerBookCopies.readLentCopies(loans); //read bookcopies with same loanids
-    let books = await handlerBooks.readLentBooks(bookcopies); //read books with bookcopy ids 
-    res.render('loansandreservations', { books });  
+    let lentbooks = await handlerBooks.readLentBooks(bookcopies); //read books with bookcopy ids 
+    res.render('loansandreservations', { lentbooks });  
   }
   else{
     res.redirect('../persons/login'); //not logged in
