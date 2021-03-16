@@ -4,9 +4,8 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10; 
 
 
-exports.readPerson = async function(req, res){
+exports.readPerson = async function(req, res, query){
     try {
-        let query = {email: req.body.email};
         let personinfo = await mongooseWrap.retrieve(model.Person, query);
         return personinfo;
         

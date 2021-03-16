@@ -3,6 +3,7 @@ var router = express.Router();
 const handlerBooks = require('../models/books/handleBooks');
 const handlerBookCopies = require('../models/bookcopies/handleBookCopies');
 const handlerLoans = require('../models/loans/handleLoans');
+const handlerPersons = require('../models/persons/handlePersons');
 
 //Details page
 router.get('/books/:booktitle', async function(req, res, next) {
@@ -44,6 +45,16 @@ router.get('/loan', async function(req, res, next) {
 router.get('/reserve', async function(req, res, next) {
   let books = await handlerBooks.readBooks(req, res); 
   res.render('books', { books });
+});
+
+router.get('/loansandreservations', async function(req, res, next) {
+  if(req.session.authenticated){
+    let query = {email: req.session.user};
+    let person = await handlerPersons.readPerson(req, res, query);
+    let loans = await handlerLoans.readPersonLoans(person[0]._id);
+    
+  }
+  res.render('loansandreservations', { title: 'Din side' });
 });
 
 module.exports = router;

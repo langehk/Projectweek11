@@ -16,3 +16,15 @@ exports.readLoans = async function(bookcopies){
         console.log(error);
     }
 }
+
+exports.readPersonLoans = async function(pid){
+
+    try {
+        let query = { pid : pid };
+        let loans = await mongooseWrap.retrieve(model.Loan, query);
+        console.log(loans);
+        return loans; 
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const personSchema = mongoose.Schema({
+    _id: Number,
     cpr: {type: Number, unique: true},
     currentpenalties: Number,
     email: {type: String, unique: true},

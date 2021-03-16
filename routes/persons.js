@@ -21,11 +21,12 @@ router.post('/createperson', async function(req, res, next) {
 
 
 router.post('/login', async function(req, res, next) { 
-  handler.readPerson(req).
+  let query = {email: req.body.email};
+  handler.readPerson(req, res, query).
     then(async function(personinfo) {
         const loggedin = await handler.comparePassword(req.body.password, personinfo, req);
         if(loggedin){
-          res.redirect('../library/booksview'); //list of books
+          res.redirect('../library/loansandreservations'); //list of books
         }
         else{
           //res.render('login', { title: 'Express' });
