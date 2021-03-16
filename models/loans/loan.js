@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const loanSchema = mongoose.Schema({
+    _id: Number,
     date: String, 
     pid: Number
 })

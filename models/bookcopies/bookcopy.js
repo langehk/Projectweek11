@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const bookcopySchema = mongoose.Schema({
+    _id: Number,
     bookid : Number
 })
 
