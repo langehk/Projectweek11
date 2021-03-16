@@ -7,3 +7,5 @@ block content
             p(class="lentbooks") #{book.title}
     div(id="reservations")
         h3 Your reservations
+        each book in reservedbooks 
+            p(class="reservedbooks") #{book.title}

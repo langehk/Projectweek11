@@ -60,8 +60,9 @@ router.get('/loansandreservations', async function(req, res, next) {
 
     //RESERVATIONS
     let reservations = await handlerReservations.readPersonReservations(person[0]._id);
+    let reservedbooks = await handlerBooks.readLentBooks(reservations); 
 
-    res.render('loansandreservations', { lentbooks });  
+    res.render('loansandreservations', { lentbooks, reservedbooks });  
   }
   else{
     res.redirect('../persons/login'); //not logged in
