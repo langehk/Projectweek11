@@ -13,7 +13,7 @@ exports.retrieve = async function (Model, query) {
     let stuff = null;
     await mongoose.connect(constr, conparam);
     db.once("open", function () { //open connection
-        console.log("Connected to server by mongoose")
+        
     });
 
     try {
@@ -31,7 +31,7 @@ exports.retrieveAndSort = async function (Model, sort) {
     let stuff = null;
     await mongoose.connect(constr, conparam);
     db.once("open", function () { //open connection
-        console.log("Connected to server by mongoose")
+        
     });
 
     try {
@@ -49,7 +49,7 @@ exports.retrieveDistinct = async function (Model, query) {
     let stuff = null;
     await mongoose.connect(constr, conparam);
     db.once("open", function () { //open connection
-        console.log("Connected to server by mongoose")
+        
     });
 
     await Model.find().distinct(query, function (err, items) {
@@ -63,14 +63,14 @@ exports.count = async function (Model, query) {
     await mongoose.connect(constr, conparam);
     let stuff = null;
     db.once("open", function () { //open connection
-        console.log("Connected to server by mongoose")
+        
     });
     
     stuff = await Model.countDocuments(query, function (err, count) {
         if (err) {
             console.log(err)
         } else {
-            console.log("Count is", count)
+            
             db.close();
         }
     });
@@ -80,7 +80,7 @@ exports.count = async function (Model, query) {
 exports.save = async function (obj) {
     await mongoose.connect(constr, conparam);
     db.once("open", function () { //open connection
-        console.log("Connected to server by mongoose")
+        
     });
 
     try {

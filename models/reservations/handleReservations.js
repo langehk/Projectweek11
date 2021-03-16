@@ -16,3 +16,11 @@ exports.readPersonReservations = async function(pid){
         console.log(error);
     }
 }
+
+exports.makeReservation = async function(req, res, pid){
+    let reservation = new model.Reservation({
+        _id: {pid: pid, bookid: req.body.bookid},
+        date: req.body.date
+    })
+    await mongooseWrap.save(reservation); 
+}

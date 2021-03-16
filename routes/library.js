@@ -43,9 +43,11 @@ router.get('/loan', async function(req, res, next) {
   res.render('books', { books });
 });
 
-router.get('/reserve', async function(req, res, next) {
-  let books = await handlerBooks.readBooks(req, res); 
-  res.render('books', { books });
+router.post('/reserve', async function(req, res, next) {
+  let query = {email: req.session.user}
+  let person = await handlerPersons.readPerson(req, res, query);
+  handlerReservations.makeReservation(req, res, person[0]._id);
+  res.redirect('./loansandreservations');
 });
 
 router.get('/loansandreservations', async function(req, res, next) {

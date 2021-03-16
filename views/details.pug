@@ -5,9 +5,12 @@ block content
         p(class="booktitle") #{val.title}
         each author in val.authors
             p(class="authors") #{author.firstname} #{author.middlename} #{author.lastname}
-    if availability
-        a(href="/library/loan")
-            button Loan
-    else
-        a(href="/library/reserve")
-            button Reserve
+        if availability=false
+            a(href="/library/loan")
+                button Loan
+        else
+            form(method="post" id="reserveForm" action="../reserve")
+                label(for="date") Date of interest:
+                input(type="date" name="date" required)
+                input(type="hidden" value=val._id name="bookid")
+                input(type="submit" id="reserveButton" value="Reserve")
