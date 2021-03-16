@@ -26,7 +26,7 @@ router.post('/login', async function(req, res, next) {
     then(async function(personinfo) {
         const loggedin = await handler.comparePassword(req.body.password, personinfo, req);
         if(loggedin){
-          res.redirect('../library/loansandreservations'); //list of books
+          res.redirect('../library/books'); //list of books
         }
         else{
           //res.render('login', { title: 'Express' });
