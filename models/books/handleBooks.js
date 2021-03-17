@@ -29,7 +29,7 @@ exports.readDetails = async function(title){
 //Finding bookinfo on lent books
 exports.readBooksInfo = async function(bookids){ //bookids = array of id's
     try {
-        let query = { _id : { $in : bookids } } //query to search for loans on these bookcopies
+        let query = { _id : { $all : bookids } } //query to search for loans on these bookcopies
         let books = await mongooseWrap.retrieve(model.Book, query);
         return books; 
     } catch (error) {

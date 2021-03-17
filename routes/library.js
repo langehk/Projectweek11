@@ -66,8 +66,7 @@ router.post('/reserve', async function(req, res, next) {
   }
 });
 
-
-
+//Page with loans and reservations
 router.get('/loansandreservations', async function(req, res, next) {
   if(req.session.authenticated){
     let query = {email: req.session.user};
@@ -82,12 +81,22 @@ router.get('/loansandreservations', async function(req, res, next) {
     let reservations = await handlerReservations.readPersonReservations(person[0]._id);
     let reservedbooks = await handlerBooks.readBooksInfo(reservations); 
 
-    res.render('loansandreservations', { lentbooks, reservedbooks });  
+    console.log(lentbooks);
+    console.log(loans);
+    console.log(bookcopies);
+    res.render('loansandreservations', { lentbooks, reservedbooks, loans });  
   }
   else{
     res.redirect('../persons/login'); //not logged in
   }
     
 });
+
+//Return
+router.get('/return/:bookid', async function(req, res, next) {
+    console.log('Return');
+    
+});
+
 
 module.exports = router;
