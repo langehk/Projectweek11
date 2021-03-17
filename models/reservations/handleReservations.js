@@ -6,12 +6,13 @@ exports.readPersonReservations = async function(pid){
     try {
         let query = { "_id.pid": pid };
         let reservations = await mongooseWrap.retrieve(model.Reservation, query);
-        let idarray = [];
+/*         let idarray = [];
         //pushing our bookcopy id's into new array
         reservations.forEach(function (reservation) {
             idarray.push(reservation._id.bookid);
         });
-        return idarray; 
+        return idarray;  */
+        return reservations;
     } catch (error) {
         console.log(error);
     }
@@ -30,11 +31,9 @@ exports.searchAndDelete = async function(pid, bookid){
         pid: pid,
         bookid: bookid
     }};
-    console.log(query);
     let reservation = await mongooseWrap.retrieve(model.Reservation, query);
 
     if(reservation.length != 0){
         await mongooseWrap.delete(model.Reservation, query);
     }
-    console.log('Reservation: ' + reservation);
 }

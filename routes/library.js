@@ -47,6 +47,7 @@ router.get('/loan/:bookid', async function(req, res, next) {
     let bookid = req.params.bookid; //bookid
     let bookcopies = await handlerBookCopies.readCopies(bookid); //read bookcopies for that book
     let loans = await handlerLoans.readLoans(bookcopies); //read loans
+    //Check if reserved and delete if true
     await handlerReservations.searchAndDelete(person[0]._id, Number(bookid));
     handlerLoans.makeLoan(req, res, person[0]._id, bookcopies, loans);
     res.redirect('../loansandreservations');
@@ -93,25 +94,47 @@ router.get('/loansandreservations', async function(req, res, next) {
 
     //RESERVATIONS
     let reservations = await handlerReservations.readPersonReservations(person[0]._id);
-    let reservedbooks = await handlerBooks.readBooksInfo(reservations); 
+    let idarray = []; 
+      reservations.forEach(function (reservation) {
+        idarray.push(reservation._id.bookid);
+      });
+    let reservedbooks = await handlerBooks.readBooksInfo(idarray); 
     let reservedAvailable = [];
-
+    let arr = [1,2,3,4,5];
+    
     //Checking availability for each reserved book - in pug view 'loan button' appears if true
     reservedbooks.forEach(async function(element) {
+      let i = 0;
       try {
-        let bookcopiesReserved = await handlerBookCopies.readCopies(element._id);  
-        let loans = await handlerLoans.readLoans(bookcopiesReserved);
-        if(bookcopiesReserved.length =! loans.length){
-          //Book is available 
-          reservedAvailable.push(true);
-        }
+        if(getDate.expired(reservations[i].date)){
+            //expired
+            if(reservations[i]._id.bookid == element._id){
+              if(i == 0){
+                reservedbooks.splice(i, 1);  
+              }
+              else{
+                reservedbooks.splice(i, i);
+              }
+              
+            }
+            await handlerReservations.searchAndDelete(person[0]._id, element._id);
+        } 
         else {
-          reservedAvailable.push(false);
+          let bookcopiesReserved = await handlerBookCopies.readCopies(element._id);  
+          let loans = await handlerLoans.readLoans(bookcopiesReserved);
+          if(bookcopiesReserved.length =! loans.length){
+            //Book is available 
+            reservedAvailable.push(true);
+          }
+          else {
+            reservedAvailable.push(false);
+          }
         }
+        i++;
+
       } catch (error) {
         console.log(error);
       }
-
     });
     
     res.render('loansandreservations', { lentbooks, reservedbooks, loans, reservedAvailable });  
@@ -127,7 +150,6 @@ router.get('/return/:loanid', async function(req, res, next) {
     
     let loan = await handlerLoans.readLoan(req.params.loanid);
     let penalty = getDate.tooLate(loan[0].date);
-    console.log(penalty);
     if(penalty){ //too late return
       let query = {email: req.session.user};
       let incrementPenalty = {$inc: {currentpenalties: 25}}; 
