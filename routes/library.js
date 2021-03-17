@@ -75,15 +75,24 @@ router.get('/loansandreservations', async function(req, res, next) {
     //LOANS
     let loans = await handlerLoans.readPersonLoans(person[0]._id); //read loans to that user
     let bookcopies = await handlerBookCopies.readLentCopies(loans); //read bookcopies with same loanids
-    let lentbooks = await handlerBooks.readBooksInfo(bookcopies); //read books with bookcopy ids 
+    let allbooks = await handlerBooks.readBooks(); //all our books
+
+    /* We do it like this to get the same book multiple times
+    If we search with $in operator, we will not get the same book multiple times, 
+    but you can borrow several copies of the same book */
+    let lentbooks = []; 
+    for (let i = 0; i < allbooks.length; i++) {
+      for (let y = 0; y < bookcopies.length; y++) {
+        if(allbooks[i]._id == bookcopies[y]){
+          lentbooks.push(allbooks[i]);
+        }
+      }
+    }
 
     //RESERVATIONS
     let reservations = await handlerReservations.readPersonReservations(person[0]._id);
     let reservedbooks = await handlerBooks.readBooksInfo(reservations); 
 
-    console.log(lentbooks);
-    console.log(loans);
-    console.log(bookcopies);
     res.render('loansandreservations', { lentbooks, reservedbooks, loans });  
   }
   else{
