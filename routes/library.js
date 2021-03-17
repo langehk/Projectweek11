@@ -6,6 +6,7 @@ const handlerLoans = require('../models/loans/handleLoans');
 const handlerPersons = require('../models/persons/handlePersons');
 const handlerReservations = require('../models/reservations/handleReservations');
 const { model } = require('mongoose');
+const getDate = require('../lib/date');
 
 //Details page
 router.get('/books/:booktitle', async function(req, res, next) {
@@ -81,7 +82,6 @@ router.get('/loansandreservations', async function(req, res, next) {
     If we search with $in operator, we will not get the same book multiple times, 
     but you can borrow several copies of the same book */
     let lentbooks = []; 
-    let loanobj = {"loanid" : 42}; 
     for (let i = 0; i < allbooks.length; i++) {
       for (let y = 0; y < bookcopies.length; y++) {
         if(allbooks[i]._id == bookcopies[y]){
@@ -103,9 +103,18 @@ router.get('/loansandreservations', async function(req, res, next) {
 });
 
 //Return
-router.get('/return/:bookid', async function(req, res, next) {
-    console.log('Return');
+router.get('/return/:loanid', async function(req, res, next) {
     
+    let loan = await handlerLoans.readLoan(req.params.loanid);
+    let penalty = getDate.tooLate(loan[0].date);
+    console.log(penalty);
+    if(penalty){ //too late return
+      let query = {email: req.session.user};
+      let incrementPenalty = {$inc: {currentpenalties: 25}}; 
+      await handlerPersons.updatePerson(req, res, query, incrementPenalty);
+    }
+    await handlerLoans.return(req, res, req.params.loanid);
+    res.redirect('../loansandreservations');
 });
 
 

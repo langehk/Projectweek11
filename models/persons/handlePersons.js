@@ -14,6 +14,16 @@ exports.readPerson = async function(req, res, query){
     }
 }
 
+exports.updatePerson = async function(req, res, query, updatequery){
+    try {
+        await mongooseWrap.update(model.Person, query, updatequery);
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 exports.comparePassword = async function(plain, personinfo, req){
     //comparing plaintext (input) to hash value from database
     const loggedin = await bcrypt.compare(plain, personinfo[0].password);

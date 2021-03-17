@@ -31,6 +31,17 @@ exports.readPersonLoans = async function(pid){
     }
 }
 
+exports.readLoan = async function(id){
+
+    try {
+        let query = { _id : id };
+        let loan = await mongooseWrap.retrieve(model.Loan, query);
+        return loan; 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.makeLoan = async function(req, res, pid, bookcopies, loans){
 
     let bookcopyid; 
@@ -55,4 +66,9 @@ exports.makeLoan = async function(req, res, pid, bookcopies, loans){
         pid: pid,
     })
     await mongooseWrap.save(loan); 
+}
+
+exports.return = async function(req, res, loanid, pid){
+    let query = {_id: loanid}
+    await mongooseWrap.delete(model.Loan, query); 
 }

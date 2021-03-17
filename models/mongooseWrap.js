@@ -91,3 +91,35 @@ exports.save = async function (obj) {
         console.log(e);
     }
 }
+
+exports.delete = async function (Model, query) {
+    await mongoose.connect(constr, conparam);
+    db.once("open", function () { //open connection
+        
+    });
+
+    try {
+        await Model.deleteOne(query); //find data
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        db.close();
+    }
+}
+
+exports.update = async function (Model, query, updateQuery) {
+    await mongoose.connect(constr, conparam);
+    db.once("open", function () { //open connection
+        
+    });
+
+    try {
+        await Model.findOneAndUpdate(query, updateQuery); //find data
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        db.close();
+    }
+}
