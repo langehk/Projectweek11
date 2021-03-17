@@ -46,34 +46,22 @@ exports.readLoan = async function(id){
 exports.makeLoan = async function(req, res, pid, bookcopies, loans){
 
     let bookcopyid; 
-    console.log(loans);
-    console.log(bookcopies);
+
     if(loans.length > 0){
         //Check which bookcopy ids are NOT in loans array
         //To make sure we loan a book that's available 
-        /* for (let i = 0; i < bookcopies.length; i++) {
+        for (let i = 0; i < bookcopies.length; i++) {
+            console.log('Bookcopyid: ' + bookcopies[i]._id);
             for (let y = 0; y < loans.length; y++) {
                 if(bookcopies[i]._id !== loans[y]._id){
                     bookcopyid = bookcopies[i]._id; 
+                    
                 }
-            }
-        }
-        console.log('ID: ' + bookcopyid); */
-        console.log('Loans: ' + loans.length);
-        for (let i = 0; i < bookcopies.length; i++) {
-            for (let p = 1; p < loans.length; p++) {
-                console.log(loans[0]._id);
-                if(bookcopies[i]._id !== loans[p]._id){
-                    console.log(bookcopies[i]._id);
-                    console.log(loans[p]._id);
-                    bookcopyid = bookcopies[i]._id;
-                    break;
-                }
-                
+                loans.pop(); 
             }
             
         }
-        
+       
     }
     
     else {
