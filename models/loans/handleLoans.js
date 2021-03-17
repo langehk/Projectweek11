@@ -50,17 +50,33 @@ exports.makeLoan = async function(req, res, pid, bookcopies, loans){
     if(loans.length > 0){
         //Check which bookcopy ids are NOT in loans array
         //To make sure we loan a book that's available 
-        for (let i = 0; i < bookcopies.length; i++) {
-            console.log('Bookcopyid: ' + bookcopies[i]._id);
-            for (let y = 0; y < loans.length; y++) {
-                if(bookcopies[i]._id !== loans[y]._id){
-                    bookcopyid = bookcopies[i]._id; 
-                    
+        async function findAvalBook(){
+             for (let i = 0; i < bookcopies.length; i++) {
+                here: {
+                    for (let y = 0; y < loans.length; y++) {
+                        //console.log('Loans: ' + loans[y]._id);
+                        if(bookcopies[i]._id == loans[y]._id){
+                            if(i == 0){
+                                bookcopies.splice(0,1);
+                            }
+                            else{
+                                bookcopies.splice(i, i);
+                            }
+                            break here;
+                        } 
+                        if(bookcopies[i]._id !== loans[y]._id){
+                            let tempBookcopyid = bookcopies[i]._id; 
+                            console.log("temp: " + tempBookcopyid);
+                            return tempBookcopyid;    
+                        }
+                        
+                    }
+                
                 }
-                loans.pop(); 
             }
-            
-        }
+        };
+
+        bookcopyid = await findAvalBook(); 
        
     }
     
