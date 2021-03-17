@@ -1,5 +1,6 @@
 const model = require('./loan');
 const mongooseWrap = require('../mongooseWrap');
+const getDate = require('../../lib/date');
 
 //Reading lent books with bookcopies as parameter
 exports.readLoans = async function(bookcopies){
@@ -50,10 +51,8 @@ exports.makeLoan = async function(req, res, pid, bookcopies, loans){
 
     let loan = new model.Loan({
         _id: bookcopyid,
-        date: "2021-03-10",
+        date: getDate.formatDate(),
         pid: pid,
     })
     await mongooseWrap.save(loan); 
-
-    console.log(loan);
 }
