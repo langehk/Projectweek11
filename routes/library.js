@@ -81,6 +81,7 @@ router.get('/loansandreservations', async function(req, res, next) {
     If we search with $in operator, we will not get the same book multiple times, 
     but you can borrow several copies of the same book */
     let lentbooks = []; 
+    let loanobj = {"loanid" : 42}; 
     for (let i = 0; i < allbooks.length; i++) {
       for (let y = 0; y < bookcopies.length; y++) {
         if(allbooks[i]._id == bookcopies[y]){

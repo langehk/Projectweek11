@@ -3,6 +3,9 @@ extends layout
 block content
     div(id="loans")
         h3 Your loans:
+
+        each loan in loans
+            p #{loan._id}
         each book in lentbooks 
             p(class="lentbooks") #{book.title}
             a(href="/library/return/" + book._id)
