@@ -93,8 +93,27 @@ router.get('/loansandreservations', async function(req, res, next) {
     //RESERVATIONS
     let reservations = await handlerReservations.readPersonReservations(person[0]._id);
     let reservedbooks = await handlerBooks.readBooksInfo(reservations); 
+    let reservedAvailable = [];
 
-    res.render('loansandreservations', { lentbooks, reservedbooks, loans });  
+    reservedbooks.forEach(async function(element) {
+      //console.log(element);  
+      try {
+        let bookcopiesReserved = await handlerBookCopies.readCopies(element._id);  
+        let loans = await handlerLoans.readLoans(bookcopiesReserved);
+        if(bookcopiesReserved.length =! loans.length){
+          //Book is available 
+          reservedAvailable.push(true);
+        }
+        else {
+          reservedAvailable.push(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+    });
+    
+    res.render('loansandreservations', { lentbooks, reservedbooks, loans, reservedAvailable });  
   }
   else{
     res.redirect('../persons/login'); //not logged in
