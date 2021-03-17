@@ -13,6 +13,7 @@ block content
         h3 Your reservations
         each book in reservedbooks 
             p(class="reservedbooks") #{book.title}
-            if reservedAvailable
+            if reservedAvailable=true
+                p #{reservedAvailable}
                 a(href="/library/loan/" + book._id)
                     button Loan

@@ -101,7 +101,7 @@ router.get('/loansandreservations', async function(req, res, next) {
     let reservedbooks = await handlerBooks.readBooksInfo(idarray); 
 
     
-    //Checking expired reservation and availability for each reserved book - in pug view 'loan button' appears if true
+    //Checking expired reservation
     reservedbooks.forEach(async function(element) {
       let i = 0;
       try {
@@ -126,8 +126,9 @@ router.get('/loansandreservations', async function(req, res, next) {
       }
     });
 
-    let reservedAvailable;
-    reservedbooks.forEach(async function(element){
+    //Checking availability for each reserved book - in pug view 'loan button' appears if true  
+    let reservedAvailable2 = await reservedbooks.forEach(async function(element){
+      let reservedAvailable = [];
       let bookcopiesReserved = await handlerBookCopies.readCopies(element._id);  
       let loans = await handlerLoans.readLoans(bookcopiesReserved);
       if(bookcopiesReserved.length =! loans.length){
@@ -137,11 +138,14 @@ router.get('/loansandreservations', async function(req, res, next) {
       else {
         reservedAvailable.push(false);
       } 
+      console.log(reservedAvailable);
+      return reservedAvailable; 
     });
-    
-    console.log(reservedbooks);
-    console.log(reservedAvailable);
-    res.render('loansandreservations', { lentbooks, reservedbooks, loans, reservedAvailable });  
+
+    console.log(reservedAvailable2);
+    //let reservedAvailable = await doSomething();
+    //console.log(reservedAvailable);
+    res.render('loansandreservations', { lentbooks, reservedbooks, loans, reservedAvailable2});  
   }
   else{
     res.redirect('../persons/login'); //not logged in
