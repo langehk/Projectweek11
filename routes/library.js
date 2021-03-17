@@ -5,6 +5,7 @@ const handlerBookCopies = require('../models/bookcopies/handleBookCopies');
 const handlerLoans = require('../models/loans/handleLoans');
 const handlerPersons = require('../models/persons/handlePersons');
 const handlerReservations = require('../models/reservations/handleReservations');
+const { model } = require('mongoose');
 
 //Details page
 router.get('/books/:booktitle', async function(req, res, next) {
@@ -38,9 +39,19 @@ router.get('/books', async function(req, res, next) {
 
 
 //Loan and reserve
-router.get('/loan', async function(req, res, next) {
-  let books = await handlerBooks.readBooks(req, res); 
-  res.render('books', { books });
+router.get('/loan/:bookid', async function(req, res, next) {
+  if(req.session.authenticated){
+    let query = {email: req.session.user}
+    let person = await handlerPersons.readPerson(req, res, query); //get user
+    let bookid = req.params.bookid; //bookid
+    let bookcopies = await handlerBookCopies.readCopies(bookid); //read bookcopies for that book
+    let loans = await handlerLoans.readLoans(bookcopies); //read loans
+    handlerLoans.makeLoan(req, res, person[0]._id, bookcopies, loans);
+    res.redirect('../loansandreservations');
+  }
+  else{
+    res.redirect('../../persons/login');
+  }
 });
 
 router.post('/reserve', async function(req, res, next) {
@@ -54,6 +65,8 @@ router.post('/reserve', async function(req, res, next) {
     res.redirect('../persons/login');
   }
 });
+
+
 
 router.get('/loansandreservations', async function(req, res, next) {
   if(req.session.authenticated){

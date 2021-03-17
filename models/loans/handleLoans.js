@@ -29,3 +29,31 @@ exports.readPersonLoans = async function(pid){
         console.log(error);
     }
 }
+
+exports.makeLoan = async function(req, res, pid, bookcopies, loans){
+
+    let bookcopyid; 
+    if(loans.length > 0){
+        //Check which bookcopy ids are NOT in loans array
+        for (let i = 0; i < bookcopies.length; i++) {
+            for (let y = 0; y < loans.length; y++) {
+                if(bookcopies[i]._id != loans[y]._id){
+                    bookcopyid = bookcopies[i]._id; 
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        bookcopyid = bookcopies[0]._id;
+    }
+
+    let loan = new model.Loan({
+        _id: bookcopyid,
+        date: "2021-03-10",
+        pid: pid,
+    })
+    await mongooseWrap.save(loan); 
+
+    console.log(loan);
+}
