@@ -29,6 +29,7 @@ router.get('/books/:booktitle', async function(req, res, next) {
   else{
     availability = true; 
   }
+
   res.render('details', { book, availability });
 });
 
@@ -127,25 +128,24 @@ router.get('/loansandreservations', async function(req, res, next) {
     });
 
     //Checking availability for each reserved book - in pug view 'loan button' appears if true  
-    let reservedAvailable2 = await reservedbooks.forEach(async function(element){
-      let reservedAvailable = [];
+    let reservedAvailable = [];
+    for (const element in reservedbooks){
+      //let reservedAvailable = [];
       let bookcopiesReserved = await handlerBookCopies.readCopies(element._id);  
       let loans = await handlerLoans.readLoans(bookcopiesReserved);
-      if(bookcopiesReserved.length =! loans.length){
+      if(bookcopiesReserved.length != loans.length){
         //Book is available 
         reservedAvailable.push(true);
       }
       else {
         reservedAvailable.push(false);
       } 
-      console.log(reservedAvailable);
-      return reservedAvailable; 
-    });
+    };
 
-    console.log(reservedAvailable2);
+    console.log(reservedAvailable);
     //let reservedAvailable = await doSomething();
     //console.log(reservedAvailable);
-    res.render('loansandreservations', { lentbooks, reservedbooks, loans, reservedAvailable2});  
+    res.render('loansandreservations', { lentbooks, reservedbooks, loans, reservedAvailable});  
   }
   else{
     res.redirect('../persons/login'); //not logged in
