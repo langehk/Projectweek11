@@ -3,10 +3,10 @@ extends layout
 block content
     div(id="loans")
         h3 Your loans:
-    
-        each book, loan in lentbooks
-            p(class="lentbooks") #{book.title}
-            a(href="/library/return/" + loans[loan]._id)
+
+        - for (let i = 0; i < lentbooks.length; i++)
+            p(class="lentbooks")= lentbooks[i].title
+            a(href="/library/return/" + loans[i]._id)
                 Button Return book
 
     div(id="reservations")
