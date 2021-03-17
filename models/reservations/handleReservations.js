@@ -24,3 +24,17 @@ exports.makeReservation = async function(req, res, pid){
     })
     await mongooseWrap.save(reservation); 
 }
+
+exports.searchAndDelete = async function(pid, bookid){
+    let query =  {_id: { 
+        pid: pid,
+        bookid: bookid
+    }};
+    console.log(query);
+    let reservation = await mongooseWrap.retrieve(model.Reservation, query);
+
+    if(reservation.length != 0){
+        await mongooseWrap.delete(model.Reservation, query);
+    }
+    console.log('Reservation: ' + reservation);
+}

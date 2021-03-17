@@ -1,6 +1,7 @@
 const model = require('./loan');
 const mongooseWrap = require('../mongooseWrap');
 const getDate = require('../../lib/date');
+const handlerReservations = require('../reservations/handleReservations');
 
 //Reading lent books with bookcopies as parameter
 exports.readLoans = async function(bookcopies){
@@ -47,6 +48,7 @@ exports.makeLoan = async function(req, res, pid, bookcopies, loans){
     let bookcopyid; 
     if(loans.length > 0){
         //Check which bookcopy ids are NOT in loans array
+        //To make sure we loan a book that's available 
         for (let i = 0; i < bookcopies.length; i++) {
             for (let y = 0; y < loans.length; y++) {
                 if(bookcopies[i]._id != loans[y]._id){

@@ -47,6 +47,7 @@ router.get('/loan/:bookid', async function(req, res, next) {
     let bookid = req.params.bookid; //bookid
     let bookcopies = await handlerBookCopies.readCopies(bookid); //read bookcopies for that book
     let loans = await handlerLoans.readLoans(bookcopies); //read loans
+    await handlerReservations.searchAndDelete(person[0]._id, Number(bookid));
     handlerLoans.makeLoan(req, res, person[0]._id, bookcopies, loans);
     res.redirect('../loansandreservations');
   }
@@ -95,8 +96,8 @@ router.get('/loansandreservations', async function(req, res, next) {
     let reservedbooks = await handlerBooks.readBooksInfo(reservations); 
     let reservedAvailable = [];
 
+    //Checking availability for each reserved book - in pug view 'loan button' appears if true
     reservedbooks.forEach(async function(element) {
-      //console.log(element);  
       try {
         let bookcopiesReserved = await handlerBookCopies.readCopies(element._id);  
         let loans = await handlerLoans.readLoans(bookcopiesReserved);
