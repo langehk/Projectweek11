@@ -11,13 +11,9 @@ const getDate = require('../lib/date');
 //Details page
 router.get('/books/:booktitle', async function(req, res, next) {
   let book = await handlerBooks.readDetails(req.params.booktitle); 
-  
-/*   if(req.session.authenticated){
-    console.log('Logged in');
+  if(!req.session.authenticated){
+    res.redirect('/persons/login');
   }
-  else {
-    console.log('Not logged in');
-  } */
 
   let bookcopies = await handlerBookCopies.readCopies(book[0]._id); //read copies
   let loans = await handlerLoans.readLoans(bookcopies); //read loans
