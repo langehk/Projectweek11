@@ -53,32 +53,20 @@ exports.makeLoan = async function(req, res, pid, bookcopies, loans){
         async function findAvalBook(){
             
             for (let i = 0; i < bookcopies.length; i++) {
-                 console.log(bookcopies[i]._id);
                  here: { 
                     for (let y = 0; y < loans.length; y++) {
-                        console.log('Loans: ' + loans[y]._id);
                         if(bookcopies[i]._id == loans[y]._id){
-                            console.log('match ' + bookcopies[i]._id);
-                            loans.splice(0,1);
-/*                             if(i == 0){
-                                bookcopies.splice(0,1);
-                            }
-                            else{
-                                bookcopies.splice(i, i);
-                            } */
-                            console.log('Loan lenght: ' + loans.length);
+                            loans.splice(0,1); //remove loan if it's a match
                             break here;
                         } 
-                        if(bookcopies[i]._id !== loans[y]._id) {
-                            console.log('not match' + bookcopies[i]._id);
+                        if(bookcopies[i]._id !== loans[y]._id) { //not a match
                             let tempBookcopyid = bookcopies[i]._id; 
-                            console.log("temp: " + tempBookcopyid);
                             return tempBookcopyid;    
                         }
                         
                     }
 
-                    if(loans.length == 0){
+                    if(loans.length == 0){ //all loans are sliced
                         let tempBookcopyid = bookcopies[i]._id; 
                         return tempBookcopyid; 
                     }
