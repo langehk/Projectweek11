@@ -143,7 +143,7 @@ router.get('/loansandreservations', async function(req, res, next) {
     };
 
     //let reservedAvailable = await doSomething();
-    //console.log(reservedAvailable);
+    console.log(reservedAvailable);
     res.render('loansandreservations', { lentbooks, reservedbooks, loans, reservedAvailable});  
   }
   else{
