@@ -11,10 +11,8 @@ block content
 
     div(id="reservations")
         h3 Your reservations
-        each book in reservedbooks 
-            p(class="reservedbooks") #{book.title}
-            each bool in reservedAvailable 
-                if bool
-                    p #{reservedAvailable}
-                    a(href="/library/loan/" + book._id)
-                        button Loan
+        - for (let y = 0; y < reservedbooks.length; y++) 
+            p(class="reservedbooks") #{reservedbooks[y].title}
+            if reservedAvailable[y]
+                a(href="/library/loan/" + reservedbooks[y]._id)
+                    button Loan
