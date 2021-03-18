@@ -14,19 +14,21 @@ router.get('/books/:booktitle', async function(req, res, next) {
   if(!req.session.authenticated){
     res.redirect('/persons/login');
   }
-
-  let bookcopies = await handlerBookCopies.readCopies(book[0]._id); //read copies
-  let loans = await handlerLoans.readLoans(bookcopies); //read loans
-
-  if(bookcopies.length == loans.length){ //If loans.length are the same as copies.length there's no available books
-    availability = false; 
-    console.log('Not available');
+  else {
+    let bookcopies = await handlerBookCopies.readCopies(book[0]._id); //read copies
+    let loans = await handlerLoans.readLoans(bookcopies); //read loans
+  
+    if(bookcopies.length == loans.length){ //If loans.length are the same as copies.length there's no available books
+      availability = false; 
+      console.log('Not available');
+    }
+    else{
+      availability = true; 
+    }
+  
+    res.render('details', { book, availability });
   }
-  else{
-    availability = true; 
-  }
 
-  res.render('details', { book, availability });
 });
 
 //Books page
