@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const handler = require('../models/persons/handlePersons');
+const { body,validationResult } = require('express-validator');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -15,8 +16,20 @@ router.get('/createperson', function(req, res, next) {
   res.render('createperson', { title: 'Express' });
 });
 
-router.post('/createperson', async function(req, res, next) {
-  handler.postPerson(req, res);
+router.post(
+  '/createperson', 
+  body('middlename', 'Empty name').trim().isLength({min: 1}).escape(), 
+  (req, res, next) => {
+      // Extract the validation errors from a request.
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+          }
+      else {
+        handler.postPerson(req, res);
+      }
+  
 });
 
 
