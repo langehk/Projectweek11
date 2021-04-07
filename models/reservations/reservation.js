@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const reservationSchema = mongoose.Schema({
     _id: { 
-        pid: Number,
+        pid: String,
         bookid: Number
     },
         date: String
